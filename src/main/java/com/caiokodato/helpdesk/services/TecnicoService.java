@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.caiokodato.helpdesk.entities.Tecnico;
 import com.caiokodato.helpdesk.repositories.TecnicoRepository;
+import com.caiokodato.helpdesk.services.execptions.ObjectnotFoundExecption;
 
 @Service
 public class TecnicoService {
@@ -16,6 +17,6 @@ public class TecnicoService {
 
     public Tecnico findById(Integer id) {
         Optional<Tecnico> obj = tecnicoRepository.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectnotFoundExecption("Objeto não encontrado! Id: "+ id));
     }
 }

@@ -12,19 +12,15 @@ import com.caiokodato.helpdesk.enums.Perfil;
 import com.caiokodato.helpdesk.enums.Prioridade;
 import com.caiokodato.helpdesk.enums.Status;
 import com.caiokodato.helpdesk.repositories.ChamadoRepository;
-import com.caiokodato.helpdesk.repositories.ClienteRepository;
 import com.caiokodato.helpdesk.repositories.PessoaRepository;
-import com.caiokodato.helpdesk.repositories.TecnicoRepository;
+
 
 @Service
 public class DBService {
 	
 	@Autowired
     private PessoaRepository pessoaRepository;
-    @Autowired
-	private TecnicoRepository tecnicoRepository;
-	@Autowired
-	private ClienteRepository clienteRepository;
+
 	@Autowired
 	private ChamadoRepository chamadoRepository;
     
