@@ -1,11 +1,11 @@
 package com.caiokodato.helpdesk.entities;
 
 import java.io.Serializable;
-import java.io.ObjectInputFilter.Status;
 import java.time.LocalDate;
 
 
 import com.caiokodato.helpdesk.enums.Prioridade;
+import com.caiokodato.helpdesk.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -46,14 +46,16 @@ public class Chamado implements Serializable {
     public Chamado() {
     }
 
-
-    public Chamado(Integer id, Prioridade prioridade, Status status, String titulo, String observacoes) {
+    public Chamado(Integer id, Prioridade prioridade, Status status, String titulo, String observacoes, Tecnico tecnico, Cliente cliente) {
         this.id = id;
         this.prioridade = prioridade;
         this.status = status;
         this.titulo = titulo;
         this.observacoes = observacoes;
+        this.cliente = cliente;
+        this.tecnico = tecnico;
     }
+
 
     public Integer getId() {
         return this.id;
