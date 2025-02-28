@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import com.caiokodato.helpdesk.entities.Tecnico;
 import com.caiokodato.helpdesk.enums.Perfil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class TecnicoDTO implements Serializable{
     
@@ -21,11 +21,12 @@ public class TecnicoDTO implements Serializable{
     protected String senha;
     protected Set<Integer> perfis = new HashSet<>();
 
-    @JsonIgnore
+    @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
 
     public TecnicoDTO() {
+        addPerfil(Perfil.CLIENTE);
     }
 
 
@@ -37,6 +38,7 @@ public class TecnicoDTO implements Serializable{
         this.senha = obj.getSenha();
         this.perfis = obj.getPerfis().stream().map(x -> x.getCod()).collect(Collectors.toSet());
         this.dataCriacao = obj.getDataCriacao();
+        addPerfil(Perfil.CLIENTE);
     }
 
 
@@ -96,6 +98,9 @@ public class TecnicoDTO implements Serializable{
         this.dataCriacao = dataCriacao;
     }
 
+    public void addPerfil(Perfil perfil) {
+        this.perfis.add(perfil.getCod());
+    }
 
-    
+
 }
