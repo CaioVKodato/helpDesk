@@ -3,7 +3,7 @@ package com.caiokodato.helpdesk.enums;
 public enum Status {
     ABERTO(0, "ABERTO"),
     ANDAMENTO(1, "ANDAMENTO"),
-    ENCARRADO( 2, "ENCARRADO");
+    ENCERRADO( 2, "ENCERRADO");
 
     private Integer cod;
     private String descricao;
