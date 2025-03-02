@@ -51,5 +51,13 @@ public class TecnicoService {
         }
     }
 
+    public Tecnico update(Integer id, TecnicoDTO obj) {
+      obj.setId(id);
+      Tecnico oldObj = findById(id);
+      validaPorCpfEEmail(obj);
+      oldObj = new Tecnico(obj);
+      return tecnicoRepository.save(oldObj);
+    }
+
    
 }
