@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 
 @Service
 public class TecnicoService {
-    
+
     @Autowired
     private TecnicoRepository tecnicoRepository;
 
@@ -27,7 +27,7 @@ public class TecnicoService {
 
     public Tecnico findById(Integer id) {
         Optional<Tecnico> obj = tecnicoRepository.findById(id);
-        return obj.orElseThrow(() -> new ObjectnotFoundExecption("Objeto não encontrado! Id: "+ id));
+        return obj.orElseThrow(() -> new ObjectnotFoundExecption("Objeto não encontrado! Id: " + id));
     }
 
     public List<Tecnico> findAll() {
@@ -37,11 +37,11 @@ public class TecnicoService {
     public Tecnico create(TecnicoDTO objDTO) {
         objDTO.setId(null);
         validaPorCpfEEmail(objDTO);
-                Tecnico newObj = new Tecnico(objDTO);
-                return tecnicoRepository.save(newObj);
-            }
-        
-     private void validaPorCpfEEmail(TecnicoDTO objDTO) {
+        Tecnico newObj = new Tecnico(objDTO);
+        return tecnicoRepository.save(newObj);
+    }
+
+    private void validaPorCpfEEmail(TecnicoDTO objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
         if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
             throw new DataIntegrityViolationException("CPF ja cadastrado na base de dados!");
@@ -53,13 +53,20 @@ public class TecnicoService {
         }
     }
 
-    public Tecnico update(Integer id,@Valid TecnicoDTO objDTO) {
-      objDTO.setId(id);
-      Tecnico oldObj = findById(id);
-      validaPorCpfEEmail(objDTO);
-      oldObj = new Tecnico(objDTO);
-      return tecnicoRepository.save(oldObj);
+    public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
+        objDTO.setId(id);
+        Tecnico oldObj = findById(id);
+        validaPorCpfEEmail(objDTO);
+        oldObj = new Tecnico(objDTO);
+        return tecnicoRepository.save(oldObj);
     }
 
-   
+    public void delete(Integer id) {
+        Tecnico obj = findById(id);
+        if (obj.getChamados().size() > 0) {
+            throw new DataIntegrityViolationException("Tecnico possui ordens de serviço e não pode ser deletado!");
+        }
+        tecnicoRepository.deleteById(id);
+
+    }
 }
