@@ -14,6 +14,8 @@ import com.caiokodato.helpdesk.repositories.TecnicoRepository;
 import com.caiokodato.helpdesk.services.execptions.DataIntegrityViolationException;
 import com.caiokodato.helpdesk.services.execptions.ObjectnotFoundExecption;
 
+import jakarta.validation.Valid;
+
 @Service
 public class TecnicoService {
     
@@ -51,11 +53,11 @@ public class TecnicoService {
         }
     }
 
-    public Tecnico update(Integer id, TecnicoDTO obj) {
-      obj.setId(id);
+    public Tecnico update(Integer id,@Valid TecnicoDTO objDTO) {
+      objDTO.setId(id);
       Tecnico oldObj = findById(id);
-      validaPorCpfEEmail(obj);
-      oldObj = new Tecnico(obj);
+      validaPorCpfEEmail(objDTO);
+      oldObj = new Tecnico(objDTO);
       return tecnicoRepository.save(oldObj);
     }
 

@@ -6,107 +6,103 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.caiokodato.helpdesk.entities.Tecnico;
 import com.caiokodato.helpdesk.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotNull;
 
-public class TecnicoDTO implements Serializable{
-    
-    private static final long serialVersionUID = 1L;
-    
-    protected Integer id;
-    @NotNull(message = "O campo NOME é requerido")
-    protected String nome;
-    @NotNull(message = "O campo CPF é requerido")
-    protected String cpf;
-    @NotNull(message = "O campo EMAIL é requerido")
-    protected String email;
-    @NotNull(message = "O campo SENHA é requerido")
-    protected String senha;
-    protected Set<Integer> perfis = new HashSet<>();
+public class TecnicoDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    protected LocalDate dataCriacao = LocalDate.now();
+	protected Integer id;
+	@NotNull(message = "O campo NOME é requerido")
+	protected String nome;
+	@NotNull(message = "O campo CPF é requerido")
+	@CPF
+	protected String cpf;
+	@NotNull(message = "O campo EMAIL é requerido")
+	protected String email;
+	@NotNull(message = "O campo SENHA é requerido")
+	protected String senha;
+	protected Set<Integer> perfis = new HashSet<>();
 
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	protected LocalDate dataCriacao = LocalDate.now();
 
-    public TecnicoDTO() {
-        addPerfil(Perfil.CLIENTE);
-    }
+	public TecnicoDTO() {
+		super();
+		addPerfil(Perfil.CLIENTE);
+	}
 
+	public TecnicoDTO(Tecnico obj) {
+		super();
+		this.id = obj.getId();
+		this.nome = obj.getNome();
+		this.cpf = obj.getCpf();
+		this.email = obj.getEmail();
+		this.senha = obj.getSenha();
+		this.perfis = obj.getPerfis().stream().map(x -> x.getCod()).collect(Collectors.toSet());
+		this.dataCriacao = obj.getDataCriacao();
+		addPerfil(Perfil.CLIENTE);
+	}
 
-    public TecnicoDTO(Tecnico obj) {
-        this.id = obj.getId();
-        this.nome = obj.getNome();
-        this.cpf = obj.getCpf();
-        this.email = obj.getEmail();
-        this.senha = obj.getSenha();
-        this.perfis = obj.getPerfis().stream().map(x -> x.getCod()).collect(Collectors.toSet());
-        this.dataCriacao = obj.getDataCriacao();
-        addPerfil(Perfil.CLIENTE);
-    }
+	public Integer getId() {
+		return id;
+	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getId() {
-        return this.id;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getNome() {
-        return this.nome;
-    }
+	public String getCpf() {
+		return cpf;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
-    public String getCpf() {
-        return this.cpf;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getEmail() {
-        return this.email;
-    }
+	public String getSenha() {
+		return senha;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
-    public String getSenha() {
-        return this.senha;
-    }
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+	public void addPerfil(Perfil perfil) {
+		this.perfis.add(perfil.getCod());
+	}
 
-    public Set<Perfil> getPerfis() {
-        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
-    }
+	public LocalDate getDataCriacao() {
+		return dataCriacao;
+	}
 
-    public void setPerfis(Perfil perfil) {
-        this.perfis.add(perfil.getCod());
-    }
-
-    public LocalDate getDataCriacao() {
-        return this.dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDate dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public void addPerfil(Perfil perfil) {
-        this.perfis.add(perfil.getCod());
-    }
-
+	public void setDataCriacao(LocalDate dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
 
 }
