@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import com.caiokodato.helpdesk.entities.Chamado;
 
+import jakarta.validation.constraints.NotNull;
+
 
 public class ChamadoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,12 +15,17 @@ public class ChamadoDTO implements Serializable {
     private Integer id;
     private LocalDate dataAbertura = LocalDate.now();
     private LocalDate dataFechamento;
+    @NotNull(message = "O campo PRIORIDADE é requerido")
     private Integer prioridade;
+    @NotNull(message = "O campo STATUS é requerido")
     private Integer status;
+    @NotNull(message = "O campo TITULO é requerido")
     private String titulo;
+    @NotNull(message = "O campo OBSERVAÇÕES é requerido")
     private String observacoes;
-
+    @NotNull(message = "O campo CLIENTE é requerido")
     private Integer cliente;
+    @NotNull(message = "O campo TECNICO é requerido")
     private Integer tecnico;
 
     private String nomeTecnico;
